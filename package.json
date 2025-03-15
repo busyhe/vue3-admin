@@ -1,0 +1,48 @@
+{
+  "name": "starter-monorepo",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.6.2",
+  "description": "_description_",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "is-ci || husky",
+    "preinstall": "npx only-allow pnpm",
+    "clean": "rm -rf node_modules && pnpm -r exec rm -rf node_modules",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "keywords": [],
+  "author": "busyhe <busyhe@qq.com>",
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "homepage": "https://github.com/busyhe/starter-monorepo#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/busyhe/starter-monorepo.git"
+  },
+  "bugs": "https://github.com/busyhe/starter-monorepo/issues",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.10.0",
+    "pnpm": ">=9.12.0"
+  },
+  "devDependencies": {
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.22.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-vitest": "^0.5.4",
+    "eslint-plugin-vue": "^10.0.0",
+    "husky": "^9.1.7",
+    "is-ci": "^4.1.0",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "vitepress": "^1.6.3"
+  }
+}

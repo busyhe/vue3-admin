@@ -1,0 +1,47 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+cache
+dist
+dist-ssr
+*.local
+tsconfig.tsbuildinfo
+
+/cypress/videos/
+/cypress/screenshots/
+
+test-results/
+playwright-report/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.pnp.*
+.pnpm-store/
+
+# turbo
+.turbo
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# next-pwa
+**/public/workbox-*.js
+**/public/sw.js
+**/public/worker-*.js
