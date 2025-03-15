@@ -8,6 +8,7 @@
   "scripts": {
     "prepare": "is-ci || husky",
     "preinstall": "npx only-allow pnpm",
+    "dev": "pnpm -F @admin/www dev",
     "clean": "rm -rf node_modules && pnpm -r exec rm -rf node_modules",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
