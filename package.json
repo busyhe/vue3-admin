@@ -8,6 +8,7 @@
   "scripts": {
     "prepare": "is-ci || husky",
     "preinstall": "npx only-allow pnpm",
+    "postinstall": "pnpm -r run stub --if-present",
     "dev": "pnpm -F @admin/www dev",
     "clean": "rm -rf node_modules && pnpm -r exec rm -rf node_modules",
     "docs:dev": "vitepress dev docs",
@@ -44,6 +45,7 @@
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "unbuild": "catalog:",
     "vitepress": "^1.6.3"
   }
 }

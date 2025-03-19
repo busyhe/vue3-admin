@@ -1,0 +1,37 @@
+{
+  "name": "@admin/vite-config",
+  "version": "5.5.3",
+  "private": true,
+  "homepage": "https://github.com/busyhe/starter-monorepo#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/busyhe/starter-monorepo.git",
+    "directory": "internal/vite-config"
+  },
+  "bugs": "https://github.com/busyhe/starter-monorepo/issues",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "stub": "pnpm unbuild --stub"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "devDependencies": {
+    "@admin/node-utils": "workspace:^",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:",
+    "vite": "catalog:",
+    "vite-plugin-html": "catalog:",
+    "vite-plugin-vue-devtools": "catalog:"
+  }
+}
