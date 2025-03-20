@@ -10,6 +10,7 @@
     "preinstall": "npx only-allow pnpm",
     "postinstall": "pnpm -r run stub --if-present",
     "dev": "pnpm -F @admin/www dev",
+    "build": "turbo build",
     "clean": "rm -rf node_modules && pnpm -r exec rm -rf node_modules",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -34,6 +35,7 @@
     "pnpm": ">=9.12.0"
   },
   "devDependencies": {
+    "@admin/tsconfig": "workspace:*",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.22.0",
@@ -45,6 +47,7 @@
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "turbo": "catalog:",
     "unbuild": "catalog:",
     "vitepress": "^1.6.3"
   }

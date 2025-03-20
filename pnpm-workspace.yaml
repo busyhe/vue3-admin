@@ -13,3 +13,4 @@ catalog:
   vite-plugin-vue-devtools: ^7.7.2
   unbuild: ^3.5.0
   pkg-types: ^2.1.0
+  turbo: ^2.4.4
