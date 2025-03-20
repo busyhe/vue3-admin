@@ -1,1 +1,4 @@
 export * from './helpers'
+export * from './merge'
+export * from './request'
+export * from './inference'

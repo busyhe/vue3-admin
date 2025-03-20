@@ -49,6 +49,8 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "turbo": "catalog:",
     "unbuild": "catalog:",
-    "vitepress": "^1.6.3"
+    "vite": "catalog:",
+    "vitepress": "catalog:",
+    "vitest": "catalog:"
   }
 }

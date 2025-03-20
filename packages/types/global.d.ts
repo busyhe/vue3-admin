@@ -8,6 +8,6 @@ export interface ApplicationConfig {
 
 declare global {
   interface Window {
-    ADMIN_PRO_APP_CONF_: AdminProAppConfigRaw
+    _ADMIN_PRO_APP_CONF_: AdminProAppConfigRaw
   }
 }

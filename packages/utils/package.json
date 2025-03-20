@@ -20,6 +20,9 @@
     }
   },
   "dependencies": {
+    "@vue/shared": "catalog:",
+    "axios": "catalog:",
+    "defu": "catalog:",
     "vue-router": "catalog:"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "name": "@admin/hooks",
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@admin/types": "workspace:*",
+    "@admin/utils": "workspace:*",
+    "@vueuse/core": "catalog:"
+  }
+}

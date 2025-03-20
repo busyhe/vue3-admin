@@ -39,4 +39,7 @@
     "eslint.config.js": ".eslintignore,.eslintcache,.prettierignore,.prettierrc.*,.lintstagedrc.js",
     "tailwind.config.mjs": "postcss.*"
   },
+  "cSpell.words": [
+    "persistedstate"
+  ],
 }

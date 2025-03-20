@@ -1,5 +1,5 @@
 import { createApp, watchEffect } from 'vue'
-import { createPinia } from 'pinia'
+import { initStores } from '@admin/stores'
 
 import App from './App.vue'
 import router from './router'
@@ -7,7 +7,7 @@ import router from './router'
 async function bootstrap(namespace: string) {
   const app = createApp(App)
 
-  app.use(createPinia())
+  await initStores(app, { namespace })
 
   app.use(router)
 
