@@ -6,6 +6,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+coverage
 cache
 dist
 dist-ssr

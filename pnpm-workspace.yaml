@@ -6,10 +6,12 @@ packages:
 catalog:
   '@vitejs/plugin-vue': ^5.2.1
   '@vitejs/plugin-vue-jsx': ^4.1.1
+  '@vitest/coverage-v8': ^3.0.9
   '@vue/shared': ^3.5.13
   '@vueuse/core': ^13.0.0
   axios: ^1.8.4
   defu: ^6.1.4
+  happy-dom: ^17.4.4
   pinia: ^3.0.1
   pinia-plugin-persistedstate: ^4.2.0
   vue: ^3.5.13

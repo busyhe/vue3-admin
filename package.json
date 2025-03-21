@@ -14,7 +14,10 @@
     "clean": "rm -rf node_modules && pnpm -r exec rm -rf node_modules",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "test:unit": "vitest run --dom",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "busyhe <busyhe@qq.com>",
@@ -36,12 +39,16 @@
   },
   "devDependencies": {
     "@admin/tsconfig": "workspace:*",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.22.0",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-vitest": "^0.5.4",
     "eslint-plugin-vue": "^10.0.0",
+    "happy-dom": "catalog:",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
     "lint-staged": "^15.4.3",
