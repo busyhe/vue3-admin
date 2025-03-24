@@ -131,6 +131,31 @@ describe('Sequence', () => {
         expect(reason).toEqual('error')
       }
     })
+
+    // 测试回调函数是否被正确调用
+    it('Should call the callback function with the sequence instance', async () => {
+      let callbackCalled = false
+      let sequenceInstance: any = null
+
+      await Sequence.all([() => Promise.resolve('test')], 0, (seq) => {
+        callbackCalled = true
+        sequenceInstance = seq
+      })
+
+      expect(callbackCalled).toBe(true)
+      expect(sequenceInstance).toBeInstanceOf(Sequence)
+    })
+
+    // 测试回调函数中的 this 绑定是否正确
+    it('Should bind the correct this context in the callback function', async () => {
+      let thisContext: any = null
+
+      await Sequence.all([() => Promise.resolve('test')], 0, function (this: any) {
+        thisContext = this
+      })
+
+      expect(thisContext).toBeInstanceOf(Sequence)
+    })
   })
 
   // 测试 Sequence.chain 方法
@@ -269,6 +294,31 @@ describe('Sequence', () => {
       expect(value[2].status).toEqual(Sequence.SUCCEEDED)
       expect(value[2].value).toEqual('C')
     })
+
+    // 测试回调函数是否被正确调用
+    it('Should call the callback function with the sequence instance', async () => {
+      let callbackCalled = false
+      let sequenceInstance: any = null
+
+      await Sequence.chain([() => Promise.resolve('test')], 0, (seq) => {
+        callbackCalled = true
+        sequenceInstance = seq
+      })
+
+      expect(callbackCalled).toBe(true)
+      expect(sequenceInstance).toBeInstanceOf(Sequence)
+    })
+
+    // 测试回调函数中的 this 绑定是否正确
+    it('Should bind the correct this context in the callback function', async () => {
+      let thisContext: any = null
+
+      await Sequence.chain([() => Promise.resolve('test')], 0, function (this: any) {
+        thisContext = this
+      })
+
+      expect(thisContext).toBeInstanceOf(Sequence)
+    })
   })
 
   // 测试 Sequence.any 方法
@@ -300,6 +350,31 @@ describe('Sequence', () => {
       } catch (error) {
         expect(error).toBeDefined()
       }
+    })
+
+    // 测试回调函数是否被正确调用
+    it('Should call the callback function with the sequence instance', async () => {
+      let callbackCalled = false
+      let sequenceInstance: any = null
+
+      await Sequence.any([() => Promise.resolve('test')], 0, (seq) => {
+        callbackCalled = true
+        sequenceInstance = seq
+      })
+
+      expect(callbackCalled).toBe(true)
+      expect(sequenceInstance).toBeInstanceOf(Sequence)
+    })
+
+    // 测试回调函数中的 this 绑定是否正确
+    it('Should bind the correct this context in the callback function', async () => {
+      let thisContext: any = null
+
+      await Sequence.any([() => Promise.resolve('test')], 0, function (this: any) {
+        thisContext = this
+      })
+
+      expect(thisContext).toBeInstanceOf(Sequence)
     })
   })
 
@@ -448,6 +523,7 @@ describe('Sequence', () => {
       )
 
       i++
+      sequence.run()
       sequence.run()
       await sleep(10) // 等待序列完成
     })
