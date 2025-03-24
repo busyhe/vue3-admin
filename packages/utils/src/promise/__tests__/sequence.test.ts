@@ -30,10 +30,10 @@ describe('Sequence', () => {
             }, 15)
           })
         },
-        (last: any, index: number, list: any[]) => {
+        (last: any, index?: number, list?: any[]) => {
           expect(last.value).toEqual('A')
           expect(index).toEqual(1)
-          expect(list[0].value).toEqual('A')
+          expect(list![0].value).toEqual('A')
 
           return new Promise((resolve) => {
             setTimeout(() => {
@@ -58,10 +58,10 @@ describe('Sequence', () => {
             }, 15)
           })
         },
-        (last: any, index: number, list: any[]) => {
+        (last: any, index?: number, list?: any[]) => {
           expect(last.value).toEqual('A')
           expect(index).toEqual(1)
-          expect(list[0].value).toEqual('A')
+          expect(list![0].value).toEqual('A')
 
           return new Promise((resolve) => {
             setTimeout(() => {
@@ -87,10 +87,10 @@ describe('Sequence', () => {
             }, 15)
           })
         },
-        (last: any, index: number, list: any[]) => {
+        (last: any, index?: number, list?: any[]) => {
           expect(last.value).toEqual('A')
           expect(index).toEqual(1)
-          expect(list[0].value).toEqual('A')
+          expect(list![0].value).toEqual('A')
 
           return new Promise((resolve) => {
             setTimeout(() => {
@@ -101,7 +101,7 @@ describe('Sequence', () => {
         },
         () => (seq.push('c'), 'C')
       ])
-      expect([value[0].value, value[1].value, value[2].value]).toEqual(['A', 'B', 'C'])
+      expect([value[0]!.value, value[1]!.value, value[2]!.value]).toEqual(['A', 'B', 'C'])
     })
 
     // 测试当序列被拒绝时应捕获错误
@@ -177,12 +177,12 @@ describe('Sequence', () => {
             }, 15)
           })
         },
-        (last: any, index: number, list: any[]) => {
+        (last: any, index?: number, list?: any[]) => {
           expect(last.status).toEqual(Sequence.FAILED)
           expect(index).toEqual(1)
           expect(last.reason).toEqual('A')
           expect(last.time).toBeLessThanOrEqual(+new Date())
-          expect(list[0].status).toEqual(Sequence.FAILED)
+          expect(list![0].status).toEqual(Sequence.FAILED)
           return new Promise((resolve) => {
             setTimeout(() => {
               seq.push('b')
@@ -190,12 +190,12 @@ describe('Sequence', () => {
             }, 5)
           })
         },
-        (last: any, index: number, list: any[]) => {
+        (last: any, index?: number, list?: any[]) => {
           expect(last.status).toEqual(Sequence.SUCCEEDED)
           expect(index).toEqual(2)
           expect(last.value).toEqual('B')
           expect(last.time).toBeLessThanOrEqual(+new Date())
-          expect(list[1].status).toEqual(Sequence.SUCCEEDED)
+          expect(list![1].status).toEqual(Sequence.SUCCEEDED)
 
           return new Promise((resolve) => {
             setTimeout(() => {
@@ -219,12 +219,12 @@ describe('Sequence', () => {
             }, 15)
           })
         },
-        (last: any, index: number, list: any[]) => {
+        (last: any, index?: number, list?: any[]) => {
           expect(last.status).toEqual(Sequence.FAILED)
           expect(index).toEqual(1)
           expect(last.reason).toEqual('A')
           expect(last.time).toBeLessThanOrEqual(+new Date())
-          expect(list[0].status).toEqual(Sequence.FAILED)
+          expect(list![0].status).toEqual(Sequence.FAILED)
           return new Promise((resolve) => {
             setTimeout(() => {
               seq.push('b')
@@ -232,12 +232,12 @@ describe('Sequence', () => {
             }, 5)
           })
         },
-        (last: any, index: number, list: any[]) => {
+        (last: any, index?: number, list?: any[]) => {
           expect(last.status).toEqual(Sequence.SUCCEEDED)
           expect(index).toEqual(2)
           expect(last.value).toEqual('B')
           expect(last.time).toBeLessThanOrEqual(+new Date())
-          expect(list[1].status).toEqual(Sequence.SUCCEEDED)
+          expect(list![1].status).toEqual(Sequence.SUCCEEDED)
 
           return new Promise((resolve) => {
             setTimeout(() => {
@@ -262,12 +262,12 @@ describe('Sequence', () => {
             }, 15)
           })
         },
-        (last: any, index: number, list: any[]) => {
+        (last: any, index?: number, list?: any[]) => {
           expect(last.status).toEqual(Sequence.FAILED)
           expect(index).toEqual(1)
           expect(last.reason).toEqual('A')
           expect(last.time).toBeLessThanOrEqual(+new Date())
-          expect(list[0].status).toEqual(Sequence.FAILED)
+          expect(list![0].status).toEqual(Sequence.FAILED)
           return new Promise((resolve) => {
             setTimeout(() => {
               seq.push('b')
@@ -275,12 +275,12 @@ describe('Sequence', () => {
             }, 5)
           })
         },
-        (last: any, index: number, list: any[]) => {
+        (last: any, index?: number, list?: any[]) => {
           expect(last.status).toEqual(Sequence.SUCCEEDED)
           expect(index).toEqual(2)
           expect(last.value).toEqual('B')
           expect(last.time).toBeLessThanOrEqual(+new Date())
-          expect(list[1].status).toEqual(Sequence.SUCCEEDED)
+          expect(list![1].status).toEqual(Sequence.SUCCEEDED)
 
           return new Promise((resolve) => {
             setTimeout(() => {
@@ -291,8 +291,8 @@ describe('Sequence', () => {
         }
       ])
       expect(value.length).toEqual(3)
-      expect(value[2].status).toEqual(Sequence.SUCCEEDED)
-      expect(value[2].value).toEqual('C')
+      expect(value[2]!.status).toEqual(Sequence.SUCCEEDED)
+      expect(value[2]!.value).toEqual('C')
     })
 
     // 测试回调函数是否被正确调用
@@ -392,11 +392,11 @@ describe('Sequence', () => {
             }, 20)
           })
         },
-        (last: any, _index: number, results: any[]) => {
+        (last: any, _index?: number, results?: any[]) => {
           expect(last.status).toEqual(Sequence.SUCCEEDED)
           expect(last.value).toEqual('A')
           expect(last.time).toBeLessThanOrEqual(+new Date())
-          expect(results.length).toEqual(1)
+          expect(results!.length).toEqual(1)
 
           return new Promise((_resolve, reject) => {
             setTimeout(() => {
@@ -989,8 +989,8 @@ describe('Sequence', () => {
 
       // 验证结果数组包含所有步骤的值
       expect(results.length).toBe(2)
-      expect(results[0].value).toBe('step1')
-      expect(results[1].value).toBe('step2')
+      expect(results[0]!.value).toBe('step1')
+      expect(results[1]!.value).toBe('step2')
     })
 
     // 测试传入步骤数组和间隔时间时的参数解析
