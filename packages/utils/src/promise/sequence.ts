@@ -17,7 +17,7 @@ export interface SequenceResult {
  */
 export interface SequenceOptions {
   emitEndIfEmpty?: boolean // 当序列为空时是否触发 end 事件
-  interval?: number // 步骤之间的时间间隔（毫秒）
+  interval?: number | undefined // 步骤之间的时间间隔（毫秒）
   autoRun?: boolean // 是否自动运行序列
   muteEndIfEmpty?: boolean // 当序列为空时是否不触发 end 事件
 }
