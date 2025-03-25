@@ -24,5 +24,8 @@
     "axios": "catalog:",
     "defu": "catalog:",
     "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "expect-type": "catalog:"
   }
 }

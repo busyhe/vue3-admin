@@ -11,6 +11,7 @@ catalog:
   '@vueuse/core': ^13.0.0
   axios: ^1.8.4
   defu: ^6.1.4
+  expect-type: ^1.2.0
   happy-dom: ^17.4.4
   pinia: ^3.0.1
   pinia-plugin-persistedstate: ^4.2.0
