@@ -3,15 +3,19 @@ import { it, describe, expect } from 'vitest'
 import { defu, createDefu, defuFn, defuArrayFn } from '../index'
 import * as asteriskImport from './fixtures/'
 
+// 定义非对象类型的值数组，用于测试非对象参数的情况
 const nonObject = [null, undefined, [], false, true, 123]
 
+// 测试 defu 函数的主要测试套件
 describe('defu', () => {
+  // 测试只复制缺失属性的功能
   it('should copy only missing properties defaults', () => {
     const result = defu({ a: 'c' }, { a: 'bbb', d: 'c' })
     expect(result).toEqual({ a: 'c', d: 'c' })
     expectTypeOf(result).toMatchTypeOf<{ a: string; d: string }>()
   })
 
+  // 测试处理 null 值的情况
   it('should fill in values that are null', () => {
     const result1 = defu({ a: null as null }, { a: 'c', d: 'c' })
     expect(result1).toEqual({ a: 'c', d: 'c' })
@@ -22,6 +26,7 @@ describe('defu', () => {
     expectTypeOf(result2).toMatchTypeOf<{ a: string; d: string }>()
   })
 
+  // 测试嵌套对象的合并功能
   it('should copy nested values', () => {
     const result = defu({ a: { b: 'c' } }, { a: { d: 'e' } })
     expect(result).toEqual({
@@ -30,6 +35,7 @@ describe('defu', () => {
     expectTypeOf(result).toMatchTypeOf<{ a: { b: string; d: string } }>()
   })
 
+  // 测试默认情况下数组值的连接功能
   it('should concat array values by default', () => {
     const result = defu({ array: ['a', 'b'] }, { array: ['c', 'd'] })
     expect(result).toEqual({
@@ -38,6 +44,7 @@ describe('defu', () => {
     expectTypeOf(result).toMatchTypeOf<{ array: string[] }>()
   })
 
+  // 测试不同类型数组元素的正确类型推断
   it('should correctly type differing array values', () => {
     const item1 = { name: 'Name', age: 21 }
     const item2 = { name: 'Name', age: '42' }
@@ -48,6 +55,7 @@ describe('defu', () => {
     }>()
   })
 
+  // 测试避免合并具有自定义构造函数的对象
   it('should avoid merging objects with custom constructor', () => {
     class Test {
       // eslint-disable-next-line no-useless-constructor
@@ -57,6 +65,7 @@ describe('defu', () => {
     expect(result).toEqual({ test: new Test('a') })
   })
 
+  // 测试正确处理日期对象
   it('should assign date properly', () => {
     const date1 = new Date('2020-01-01')
     const date2 = new Date('2020-01-02')
@@ -64,6 +73,7 @@ describe('defu', () => {
     expect(result).toEqual({ date: date1 })
   })
 
+  // 测试正确合并不同对象类型
   it('should correctly merge different object types', () => {
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const fn = () => 42
@@ -74,18 +84,21 @@ describe('defu', () => {
     expectTypeOf(result).toMatchTypeOf<{ a: (() => number) | RegExp }>()
   })
 
+  // 测试处理第一个参数为非对象的情况
   it('should handle non object first param', () => {
     for (const val of nonObject) {
       expect(defu(val, { d: true })).toEqual({ d: true })
     }
   })
 
+  // 测试处理第二个参数为非对象的情况
   it('should handle non object second param', () => {
     for (const val of nonObject) {
       expect(defu({ d: true }, val)).toEqual({ d: true })
     }
   })
 
+  // 测试多个默认值对象的合并
   it('multi defaults', () => {
     const result = defu({ a: 1 }, { b: 2, a: 'x' }, { c: 3, a: 'x', b: 'x' })
     expect(result).toEqual({
@@ -100,6 +113,7 @@ describe('defu', () => {
     }>()
   })
 
+  // 测试不会覆盖 Object 原型
   it('should not override Object prototype', () => {
     const payload = JSON.parse('{"constructor": {"prototype": {"isAdmin": true}}}')
     defu({}, payload)
@@ -109,6 +123,7 @@ describe('defu', () => {
     expect({}.isAdmin).toBe(undefined)
   })
 
+  // 测试忽略非对象参数
   it('should ignore non-object arguments', () => {
     expect(defu(null, { foo: 1 }, false, 123, { bar: 2 })).toEqual({
       foo: 1,
@@ -116,6 +131,7 @@ describe('defu', () => {
     })
   })
 
+  // 测试合并两个以上对象的类型
   it('should merge types of more than two objects', () => {
     interface SomeConfig {
       foo: string
@@ -136,6 +152,7 @@ describe('defu', () => {
     ).toMatchTypeOf<ExpectedMergedType>()
   })
 
+  // 测试允许在合并链中使用部分类型
   it('should allow partials within merge chain', () => {
     interface SomeConfig {
       foo: string[]
@@ -158,6 +175,7 @@ describe('defu', () => {
     ).toMatchTypeOf<ExpectedMergedType>()
   })
 
+  // 测试自定义合并函数
   it('custom merger', () => {
     const ext = createDefu((obj, key, val) => {
       if (typeof val === 'number') {
@@ -168,6 +186,7 @@ describe('defu', () => {
     expect(ext({ cost: 15 }, { cost: 10 })).toEqual({ cost: 25 })
   })
 
+  // 测试 defuFn 函数
   it('defuFn()', () => {
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const num = () => 20
@@ -190,6 +209,7 @@ describe('defu', () => {
     })
   })
 
+  // 测试 defuArrayFn 函数
   it('defuArrayFn()', () => {
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const num = () => 20
@@ -210,6 +230,7 @@ describe('defu', () => {
     })
   })
 
+  // 测试带命名空间的自定义合并函数
   it('custom merger with namespace', () => {
     const ext = createDefu((obj, key, val, namespace) => {
       // console.log({ obj, key, val, namespace })
@@ -229,6 +250,7 @@ describe('defu', () => {
     })
   })
 
+  // 测试与星号导入一起工作
   it('works with asterisk-import', () => {
     expect(
       defu(asteriskImport, {
