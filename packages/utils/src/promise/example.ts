@@ -1,4 +1,4 @@
-import { Sequence } from './sequence'
+import { Sequence } from './sequence/sequence'
 
 /**
  * Sequence 类使用示例文件

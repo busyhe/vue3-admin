@@ -1,5 +1,6 @@
 import { describe, it, expect, afterAll } from 'vitest'
-import { Sequence } from '../sequence'
+import { Sequence } from '../sequence/sequence'
+import type { SequenceStep, ISequence } from '../sequence/type'
 
 // 创建一个延迟指定毫秒的Promise
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -1028,7 +1029,7 @@ describe('Sequence', () => {
       // 2. 当传入第二个参数为函数时，应该解析为回调
       await Sequence.all([() => 'test'], 0, (seq) => {
         cbCalled = true
-        seqWithInterval = seq
+        seqWithInterval = seq as unknown as Sequence
       })
 
       expect(cbCalled).toBe(true)
@@ -1043,9 +1044,9 @@ describe('Sequence', () => {
 
       // 使用一个自定义的promise解析器模拟parseArguments的行为
       function testParseArguments(
-        steps: any[],
-        callbackOrInterval?: ((seq: Sequence) => void) | number,
-        maybeCallback?: (seq: Sequence) => void
+        steps: SequenceStep[],
+        callbackOrInterval?: ((seq: ISequence) => void) | number,
+        maybeCallback?: (seq: ISequence) => void
       ) {
         // 这里模拟parseArguments内部的行为
         let callback = maybeCallback
@@ -1072,7 +1073,7 @@ describe('Sequence', () => {
       // 测试当第二个参数是函数时
       const sequence1 = testParseArguments(steps, (seq) => {
         callbackCalled = true
-        callbackSequence = seq
+        callbackSequence = seq as unknown as Sequence
       })
 
       expect(callbackCalled).toBe(true)
@@ -1085,7 +1086,7 @@ describe('Sequence', () => {
       // 测试当第二个参数是数字，第三个参数是函数时
       const sequence2 = testParseArguments(steps, 50, (seq) => {
         callbackCalled = true
-        callbackSequence = seq
+        callbackSequence = seq as unknown as Sequence
       })
 
       expect(callbackCalled).toBe(true)
@@ -1093,7 +1094,7 @@ describe('Sequence', () => {
 
       // 直接测试Sequence.all
       // 使用一个普通的回调函数避免类型错误
-      const testCallback = function callback(seq: any) {
+      const testCallback = function callback(seq: ISequence) {
         expect(seq).toBeInstanceOf(Sequence)
         return true
       }

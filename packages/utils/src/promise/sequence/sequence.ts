@@ -1,93 +1,52 @@
-import { EventEmitter } from '../event'
+import { EventEmitter } from '../../event'
 import { isFunction, isPromise } from '@vue/shared'
-
-/**
- * 序列执行结果接口
- */
-export interface SequenceResult {
-  status: number // 执行状态：1 成功，0 失败
-  index: number // 步骤索引
-  value?: any // 成功时的返回值
-  reason?: any // 失败时的错误原因
-  time: number // 执行完成的时间戳
-}
-
-/**
- * 序列配置选项接口
- */
-export interface SequenceOptions {
-  emitEndIfEmpty?: boolean // 当序列为空时是否触发 end 事件
-  interval?: number | undefined // 步骤之间的时间间隔（毫秒）
-  autoRun?: boolean // 是否自动运行序列
-  muteEndIfEmpty?: boolean // 当序列为空时是否不触发 end 事件
-}
-
-/**
- * 序列步骤函数类型
- */
-export type SequenceStep = (prevResult?: any, index?: number, results?: SequenceResult[]) => any
-
-/**
- * 序列事件类型
- */
-export type SequenceEvent = 'success' | 'failed' | 'end'
-
-/**
- * 序列事件回调函数类型
- */
-export type SequenceEventCallback = (
-  result: SequenceResult,
-  index?: number,
-  sequence?: Sequence
-) => void
-
-/**
- * 序列配置接口
- */
-interface SequenceConfig {
-  promises: Promise<any>[] // 存储 Promise 对象的数组
-  results: SequenceResult[] // 存储执行结果的数组
-  index: number // 当前执行的步骤索引
-  steps: SequenceStep[] // 存储待执行步骤的数组
-  busy: boolean // 标记当前是否有步骤正在执行
-  promise: Promise<any> // 当前执行的 Promise 链
-}
-
-/**
- * 序列错误类
- */
-class SequenceError extends Error {
-  constructor(options: { errno: number; errmsg: string }) {
-    super(options.errmsg)
-    this.name = 'SequenceError'
-    Object.assign(this, options)
-  }
-}
+import type {
+  SequenceResult,
+  SequenceOptions,
+  SequenceStep,
+  SequenceConfig,
+  ISequence
+} from './type'
+import { SequenceError } from './type'
 
 /**
  * 序列类 - 用于管理和执行一系列异步操作
  * 继承自 EventEmitter，可以触发和监听事件
  */
-class Sequence extends EventEmitter {
+class Sequence extends EventEmitter implements ISequence {
   // 静态常量
-  static readonly SUCCEEDED = 1 // 表示步骤执行成功的状态码
-  static readonly FAILED = 0 // 表示步骤执行失败的状态码
-  static readonly Error = SequenceError // 序列错误类
+  /** 表示步骤执行成功的状态码 */
+  static readonly SUCCEEDED = 1
+  /** 表示步骤执行失败的状态码 */
+  static readonly FAILED = 0
+  /** 序列错误类 */
+  static readonly Error = SequenceError
 
   // 私有属性
-  private running: boolean = false // 标记序列是否正在运行
-  private suspended: boolean = false // 标记序列是否被暂停
-  private suspendTimeout: NodeJS.Timeout | null = null // 暂停的定时器
-  private muteEndIfEmpty: boolean = false // 当序列为空时是否不触发 end 事件
-  private interval: number = 0 // 步骤之间的时间间隔（毫秒）
-  private index: number = 0 // 当前执行的步骤索引
-  private steps: SequenceStep[] = [] // 存储待执行步骤的数组
-  private results: SequenceResult[] = [] // 存储执行结果的数组
-  public busy: boolean = false // 标记当前是否有步骤正在执行
-  private promise: Promise<any> = Promise.resolve() // 当前执行的 Promise 链
+  /** 标记序列是否正在运行 */
+  public running: boolean = false
+  /** 标记序列是否被暂停 */
+  public suspended: boolean = false
+  /** 暂停的定时器 */
+  public suspendTimeout: NodeJS.Timeout | null = null
+  /** 当序列为空时是否不触发 end 事件 */
+  public muteEndIfEmpty: boolean = false
+  /** 步骤之间的时间间隔（毫秒）*/
+  public interval: number = 0
+  /** 当前执行的步骤索引 */
+  public index: number = 0
+  /** 存储待执行步骤的数组 */
+  public steps: SequenceStep[] = []
+  /** 存储执行结果的数组 */
+  public results: SequenceResult[] = []
+  /** 标记当前是否有步骤正在执行 */
+  public busy: boolean = false
+  /** 当前执行的 Promise 链 */
+  public promise: Promise<any> = Promise.resolve()
 
   /**
    * 创建并返回序列的默认配置
+   * @returns {SequenceConfig} 默认的序列配置对象
    */
   private static createConfig(): SequenceConfig {
     return {
@@ -102,8 +61,12 @@ class Sequence extends EventEmitter {
 
   /**
    * 构造函数
-   * @param steps 要执行的步骤数组
-   * @param options 配置选项
+   * @param {SequenceStep[]} steps - 要执行的步骤数组
+   * @param {SequenceOptions} options - 配置选项
+   * @param {boolean} [options.emitEndIfEmpty] - 当序列为空时是否触发 end 事件
+   * @param {number} [options.interval] - 步骤之间的时间间隔（毫秒）
+   * @param {boolean} [options.autoRun=true] - 是否自动运行序列
+   * @param {boolean} [options.muteEndIfEmpty] - 当序列为空时是否不触发 end 事件
    */
   constructor(steps: SequenceStep[] = [], options: SequenceOptions = {}) {
     super()
@@ -132,6 +95,8 @@ class Sequence extends EventEmitter {
 
   /**
    * 调度 end 事件的触发
+   * @private
+   * @returns {void} 无返回值
    */
   private scheduleEndEvent(): void {
     if (typeof process === 'object' && isFunction(process.nextTick)) {
@@ -145,7 +110,8 @@ class Sequence extends EventEmitter {
 
   /**
    * 向序列中添加新的步骤
-   * @param steps 要添加的步骤，可以是函数数组或单个函数
+   * @param {SequenceStep[] | SequenceStep} steps - 要添加的步骤，可以是函数数组或单个函数
+   * @returns {void} 无返回值
    */
   append(steps: SequenceStep[] | SequenceStep): void {
     const dead = this.index >= this.steps.length
@@ -161,7 +127,8 @@ class Sequence extends EventEmitter {
 
   /**
    * 跳转到指定的步骤索引
-   * @param n 目标步骤索引
+   * @param {number} n - 目标步骤索引
+   * @returns {void} 无返回值
    */
   go(n: number): void {
     if (n === undefined) return
@@ -170,6 +137,7 @@ class Sequence extends EventEmitter {
 
   /**
    * 清空序列，重置所有状态
+   * @returns {this} 返回当前实例，支持链式调用
    */
   override clear(): this {
     Object.assign(this, Sequence.createConfig())
@@ -178,7 +146,9 @@ class Sequence extends EventEmitter {
 
   /**
    * 执行序列中的下一个步骤
-   * @param inner 是否是内部调用
+   * @param {boolean} [inner=false] - 是否是内部调用
+   * @returns {Promise<any>} 返回当前执行步骤的 Promise
+   * @throws {SequenceError} 如果在序列运行时外部调用，或者没有更多步骤可执行时抛出错误
    */
   next(inner = false): Promise<any> {
     if (!inner && this.running) {
@@ -264,6 +234,7 @@ class Sequence extends EventEmitter {
 
   /**
    * 开始运行序列
+   * @returns {void} 无返回值
    */
   run(): void {
     if (this.running) return
@@ -273,6 +244,7 @@ class Sequence extends EventEmitter {
 
   /**
    * 停止运行序列
+   * @returns {void} 无返回值
    */
   stop(): void {
     this.running = false
@@ -285,7 +257,8 @@ class Sequence extends EventEmitter {
 
   /**
    * 暂停序列执行一段时间
-   * @param duration 暂停的时间（毫秒）
+   * @param {number} [duration=1000] - 暂停的时间（毫秒）
+   * @returns {void} 无返回值
    */
   suspend(duration = 1000): void {
     this.suspended = true
@@ -298,11 +271,15 @@ class Sequence extends EventEmitter {
 
   /**
    * 静态方法：同时执行所有步骤，只要有一个步骤失败，整个序列就会失败
+   * @param {SequenceStep[]} steps - 要执行的步骤数组
+   * @param {number} [interval] - 步骤之间的时间间隔（毫秒）
+   * @param {Function} [cb] - 序列创建后、执行前的回调函数
+   * @returns {Promise<SequenceResult[]>} 包含所有执行结果的 Promise
    */
   static all(
     steps: SequenceStep[],
     interval?: number,
-    cb?: (seq: Sequence) => void
+    cb?: (seq: ISequence) => void
   ): Promise<SequenceResult[]> {
     if (!steps.length) return Promise.resolve([])
     const sequence = new Sequence(steps, { interval, muteEndIfEmpty: true })
@@ -318,11 +295,15 @@ class Sequence extends EventEmitter {
 
   /**
    * 静态方法：按顺序执行所有步骤，无论成功或失败都会继续执行
+   * @param {SequenceStep[]} steps - 要执行的步骤数组
+   * @param {number} [interval] - 步骤之间的时间间隔（毫秒）
+   * @param {Function} [cb] - 序列创建后、执行前的回调函数
+   * @returns {Promise<SequenceResult[]>} 包含所有执行结果的 Promise
    */
   static chain(
     steps: SequenceStep[],
     interval?: number,
-    cb?: (seq: Sequence) => void
+    cb?: (seq: ISequence) => void
   ): Promise<SequenceResult[]> {
     if (!steps.length) return Promise.resolve([])
     const sequence = new Sequence(steps, { interval, muteEndIfEmpty: true })
@@ -334,11 +315,15 @@ class Sequence extends EventEmitter {
 
   /**
    * 静态方法：执行步骤直到有一个成功，一旦有一个步骤成功就停止并返回结果
+   * @param {SequenceStep[]} steps - 要执行的步骤数组
+   * @param {number} [interval] - 步骤之间的时间间隔（毫秒）
+   * @param {Function} [cb] - 序列创建后、执行前的回调函数
+   * @returns {Promise<SequenceResult[]>} 包含所有执行结果的 Promise，当有一个步骤成功时解析，全部失败时拒绝
    */
   static any(
     steps: SequenceStep[],
     interval?: number,
-    cb?: (seq: Sequence) => void
+    cb?: (seq: ISequence) => void
   ): Promise<SequenceResult[]> {
     if (!steps.length) return Promise.reject([])
     const sequence = new Sequence(steps, { interval, muteEndIfEmpty: true })
