@@ -9,7 +9,8 @@ export default defineConfig(async (config) => {
     isBuild: config.command === 'build',
     devtools: true,
     injectAppLoading: true,
-    injectMetadata: true
+    injectMetadata: true,
+    tailwindcss: true
   })
 
   return {

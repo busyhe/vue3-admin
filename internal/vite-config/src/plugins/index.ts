@@ -1,4 +1,5 @@
 import type { PluginOption } from 'vite'
+import tailwindcssPlugin from '@tailwindcss/vite'
 import viteVue from '@vitejs/plugin-vue'
 import viteVueJsx from '@vitejs/plugin-vue-jsx'
 import viteVueDevTools from 'vite-plugin-vue-devtools'
@@ -71,6 +72,7 @@ async function loadApplicationPlugins(options: ApplicationPluginOptions): Promis
     license,
     nitroMock,
     print,
+    tailwindcss,
     ...commonOptions
   } = options
 
@@ -85,6 +87,10 @@ async function loadApplicationPlugins(options: ApplicationPluginOptions): Promis
     {
       condition: !!html,
       plugins: () => [viteHtmlPlugin({ minify: true })]
+    },
+    {
+      condition: !!tailwindcss,
+      plugins: () => [tailwindcssPlugin()]
     }
   ])
 }

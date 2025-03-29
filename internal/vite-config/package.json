@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@admin/node-utils": "workspace:^",
+    "@tailwindcss/vite": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "vite": "catalog:",

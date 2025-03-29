@@ -46,6 +46,8 @@ interface ApplicationPluginOptions extends CommonPluginOptions {
   nitroMock?: boolean
   /** 开启控制台自定义打印 */
   print?: boolean
+  /** 是否开启tailwindcss */
+  tailwindcss?: boolean
 }
 
 type ApplicationOptions = ApplicationPluginOptions

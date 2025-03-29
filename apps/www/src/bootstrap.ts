@@ -1,6 +1,8 @@
 import { createApp, watchEffect } from 'vue'
 import { initStores } from '@admin/stores'
 
+import '@admin/styles'
+
 import App from './App.vue'
 import router from './router'
 

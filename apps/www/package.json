@@ -19,6 +19,7 @@
     "@admin/constants": "workspace:^",
     "@admin/hooks": "workspace:^",
     "@admin/stores": "workspace:^",
+    "@admin/styles": "workspace:^",
     "@admin/types": "workspace:^",
     "@admin/utils": "workspace:^",
     "pinia": "catalog:",
