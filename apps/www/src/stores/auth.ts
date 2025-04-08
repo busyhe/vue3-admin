@@ -9,7 +9,7 @@ import { resetAllStores, useAccessStore, useUserStore } from '@admin/stores'
 // import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia'
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '@/api'
+import { getAccessCodesApi, loginApi, logoutApi } from '@/api'
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore()
@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
         } else {
           onSuccess
             ? await onSuccess?.()
-            : await router.push(userInfo.homePath || DEFAULT_HOME_PATH)
+            : await router.push(userInfo?.homePath || DEFAULT_HOME_PATH)
         }
 
         if (userInfo?.realName) {
@@ -95,8 +95,21 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function fetchUserInfo() {
     let userInfo: null | UserInfo = null
-    userInfo = await getUserInfoApi()
-    userStore.setUserInfo(userInfo)
+    // Uncomment this when the API is ready
+    // userInfo = await getUserInfoApi()
+
+    // For now, provide a default UserInfo to avoid type errors
+    userInfo = {
+      avatar: '',
+      realName: '',
+      userId: '',
+      username: '',
+      desc: '',
+      homePath: DEFAULT_HOME_PATH,
+      token: ''
+    }
+
+    // userStore.setUserInfo(userInfo)
     return userInfo
   }
 
