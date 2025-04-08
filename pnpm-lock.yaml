@@ -152,6 +152,9 @@ importers:
 
   apps/www:
     dependencies:
+      '@admin/components':
+        specifier: workspace:^
+        version: link:../../packages/components
       '@admin/constants':
         specifier: workspace:^
         version: link:../../packages/constants
@@ -294,6 +297,12 @@ importers:
       vite-plugin-vue-devtools:
         specifier: 'catalog:'
         version: 7.7.2(rollup@4.35.0)(vite@6.2.2(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))
+
+  packages/components:
+    dependencies:
+      vue:
+        specifier: 'catalog:'
+        version: 3.5.13(typescript@5.8.2)
 
   packages/constants: {}
 

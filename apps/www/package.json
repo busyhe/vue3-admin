@@ -16,6 +16,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@admin/components": "workspace:^",
     "@admin/constants": "workspace:^",
     "@admin/hooks": "workspace:^",
     "@admin/stores": "workspace:^",
