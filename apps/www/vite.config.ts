@@ -10,7 +10,8 @@ export default defineConfig(async (config) => {
     devtools: true,
     injectAppLoading: true,
     injectMetadata: true,
-    tailwindcss: true
+    tailwindcss: true,
+    extraAppConfig: true
   })
 
   return {

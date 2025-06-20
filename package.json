@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@admin/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "@vitest/coverage-v8": "catalog:",

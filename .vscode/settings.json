@@ -40,6 +40,7 @@
     "tailwind.config.mjs": "postcss.*"
   },
   "cSpell.words": [
+    "dotenv",
     "persistedstate"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",

@@ -1,1 +1,5 @@
+export { default as colors } from 'chalk'
+export { default as fs } from 'node:fs/promises'
+export { generatorContentHash } from './hash'
 export { type PackageJson, readPackageJSON } from 'pkg-types'
+export * from './fs'

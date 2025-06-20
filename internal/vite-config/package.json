@@ -31,6 +31,7 @@
     "@tailwindcss/vite": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
+    "dotenv": "catalog:",
     "vite": "catalog:",
     "vite-plugin-html": "catalog:",
     "vite-plugin-vue-devtools": "catalog:"

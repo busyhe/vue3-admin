@@ -6,6 +6,7 @@ import viteVueDevTools from 'vite-plugin-vue-devtools'
 import { createHtmlPlugin as viteHtmlPlugin } from 'vite-plugin-html'
 import { viteInjectAppLoadingPlugin } from './inject-app-loading'
 import { viteMetadataPlugin } from './inject-metadata'
+import { viteExtraAppConfigPlugin } from './extra-app-config'
 
 import type { ApplicationPluginOptions, CommonPluginOptions, ConditionPlugin } from '../types'
 /**
@@ -91,6 +92,10 @@ async function loadApplicationPlugins(options: ApplicationPluginOptions): Promis
     {
       condition: !!tailwindcss,
       plugins: () => [tailwindcssPlugin()]
+    },
+    {
+      condition: isBuild && extraAppConfig,
+      plugins: async () => [await viteExtraAppConfigPlugin({ isBuild: true, root: process.cwd() })]
     }
   ])
 }

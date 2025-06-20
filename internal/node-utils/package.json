@@ -21,6 +21,7 @@
     }
   },
   "dependencies": {
+    "chalk": "catalog:",
     "pkg-types": "catalog:"
   }
 }
