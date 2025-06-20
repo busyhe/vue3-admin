@@ -1,7 +1,7 @@
 {
   "name": "starter-monorepo",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "packageManager": "pnpm@10.6.2",
   "description": "_description_",
   "main": "index.js",
@@ -43,6 +43,7 @@
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "@vitest/coverage-v8": "catalog:",
+    "bumpp": "^10.2.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.22.0",
