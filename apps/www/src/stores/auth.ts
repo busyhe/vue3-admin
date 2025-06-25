@@ -1,12 +1,8 @@
 import type { Recordable, UserInfo } from '@admin/types'
-
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
 import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@admin/constants'
 import { resetAllStores, useAccessStore, useUserStore } from '@admin/stores'
-
-// import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia'
 
 import { getAccessCodesApi, loginApi, logoutApi } from '@/api'
