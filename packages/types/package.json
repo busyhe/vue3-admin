@@ -1,13 +1,13 @@
 {
   "name": "@admin/types",
   "version": "0.0.3",
-  "homepage": "https://github.com/busyhe/starter-monorepo#readme",
+  "homepage": "https://github.com/busyhe/vue3-admin#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/busyhe/starter-monorepo.git",
+    "url": "git+https://github.com/busyhe/vue3-admin.git",
     "directory": "packages/types"
   },
-  "bugs": "https://github.com/busyhe/starter-monorepo/issues",
+  "bugs": "https://github.com/busyhe/vue3-admin/issues",
   "license": "MIT",
   "type": "module",
   "exports": {

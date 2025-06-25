@@ -1,9 +1,8 @@
-# starter-monorepo
+# vue3-admin
 
 _description_
 
-> **Note**:
-> Replace `starter-monorepo`, `_description_` and `busyhe` globally to use this template.
+> **Note**: Replace `vue3-admin`, `_description_` and `busyhe` globally to use this template.
 
 ## License
 
