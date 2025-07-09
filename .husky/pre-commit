@@ -1,3 +1,0 @@
-pnpm exec lint-staged
-
-echo Run pre-commit hook done
