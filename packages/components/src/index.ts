@@ -1,2 +1,3 @@
-export * from './authentication'
-export * from './loading'
+export * from './authentication';
+export * from './fallback';
+export * from './loading';

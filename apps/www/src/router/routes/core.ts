@@ -1,22 +1,23 @@
-import type { RouteRecordRaw } from 'vue-router'
-import { LOGIN_PATH } from '@admin/constants'
-import { preferences } from '@/preferences'
+import type { RouteRecordRaw } from 'vue-router';
 
-const BasicLayout = () => import('@/layouts/basic.vue')
-const AuthPageLayout = () => import('@/layouts/auth.vue')
+import { preferences } from '@/preferences';
+import { LOGIN_PATH } from '@admin/constants';
 
-// /** 全局404页面 */
-// const fallbackNotFoundRoute: RouteRecordRaw = {
-//   component: () => import('#/views/_core/fallback/not-found.vue'),
-//   meta: {
-//     hideInBreadcrumb: true,
-//     hideInMenu: true,
-//     hideInTab: true,
-//     title: '404'
-//   },
-//   name: 'FallbackNotFound',
-//   path: '/:path(.*)*'
-// }
+const BasicLayout = () => import('@/layouts/basic.vue');
+const AuthPageLayout = () => import('@/layouts/auth.vue');
+
+/** 全局404页面 */
+const fallbackNotFoundRoute: RouteRecordRaw = {
+  component: () => import('@/views/fallback/not-found.vue'),
+  meta: {
+    hideInBreadcrumb: true,
+    hideInMenu: true,
+    hideInTab: true,
+    title: '404',
+  },
+  name: 'FallbackNotFound',
+  path: '/:path(.*)*',
+};
 
 /** 基本路由，这些路由是必须存在的 */
 const coreRoutes: RouteRecordRaw[] = [
@@ -29,18 +30,18 @@ const coreRoutes: RouteRecordRaw[] = [
     component: BasicLayout,
     meta: {
       hideInBreadcrumb: true,
-      title: 'Root'
+      title: 'Root',
     },
     name: 'Root',
     path: '/',
     redirect: preferences.app.defaultHomePath,
-    children: []
+    children: [],
   },
   {
     component: AuthPageLayout,
     meta: {
       hideInTab: true,
-      title: 'Authentication'
+      title: 'Authentication',
     },
     name: 'Authentication',
     path: '/auth',
@@ -51,16 +52,16 @@ const coreRoutes: RouteRecordRaw[] = [
         path: 'login',
         component: () => import('@/views/authentication/login.vue'),
         meta: {
-          title: 'Login'
-        }
-      }
-    ]
+          title: 'Login',
+        },
+      },
+    ],
   },
   {
     meta: {
       icon: 'lucide:layout-dashboard',
       order: -1,
-      title: 'Dashboard'
+      title: 'Dashboard',
     },
     name: 'Dashboard',
     path: '/dashboard',
@@ -72,11 +73,11 @@ const coreRoutes: RouteRecordRaw[] = [
         meta: {
           affixTab: true,
           icon: 'lucide:area-chart',
-          title: 'Analytics'
-        }
-      }
-    ]
-  }
-]
+          title: 'Analytics',
+        },
+      },
+    ],
+  },
+];
 
-export { coreRoutes }
+export { coreRoutes, fallbackNotFoundRoute };

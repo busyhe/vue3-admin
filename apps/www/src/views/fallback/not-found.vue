@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { Fallback } from '@vben/common-ui'
+import { Fallback } from '@admin/components';
 
-defineOptions({ name: 'Fallback404Demo' })
+defineOptions({ name: 'Fallback404Demo' });
 </script>
 
 <template>
