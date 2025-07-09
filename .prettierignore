@@ -1,0 +1,16 @@
+dist
+dev-dist
+.local
+.output.js
+node_modules
+coverage
+.nitro
+.output
+
+
+**/*.svg
+**/*.sh
+
+public
+.npmrc
+*-lock.yaml
